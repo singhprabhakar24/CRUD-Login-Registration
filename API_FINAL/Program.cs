@@ -81,13 +81,21 @@ builder.Services.AddSwaggerGen(opt =>
     });
 });
 
+//( for getting cors --but not solved)
 
+var myorigins = "myorigins";
+    builder.Services.AddCors(p => p.AddPolicy(name: myorigins, build =>
+{
 
+    build.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+})); 
 
 
 
 
 var app = builder.Build();
+
+app.UseCors(myorigins);
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -96,8 +104,8 @@ if (app.Environment.IsDevelopment())
    
 }
 
-app.UseHttpsRedirection();
 
+app.UseHttpsRedirection();
 
 
 
