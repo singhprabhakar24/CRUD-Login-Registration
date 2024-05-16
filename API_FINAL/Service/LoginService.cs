@@ -14,15 +14,15 @@ namespace API_FINAL.Service
             _iloginRepository = iloginRepository;
            
         }
-        public async Task<LoginResponse> UserLogin(String username, String password)
+        public async Task<Login> UserLogin(String username, String password)
         {
 
             return await _iloginRepository.UserLogin(username, password);
         }
 
-        public async Task<LoginResponse> UserLogout(String username, String password)
+        public async Task<String> UserLogout(int id)
         {
-            return await _iloginRepository.UserLogout(username, password);
+            return await _iloginRepository.UserLogout(id);
         }
     }
 }

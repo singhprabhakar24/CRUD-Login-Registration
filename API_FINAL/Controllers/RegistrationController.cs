@@ -10,8 +10,7 @@ using API_FINAL.Authentication;
 
 namespace API_FINAL.Controllers
 {
-    
-    [Authorize]
+   
  
     [Route("api/[Action]")]
     [ApiController]

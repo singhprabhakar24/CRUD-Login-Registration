@@ -17,6 +17,9 @@ namespace API_FINAL.Controllers
     {
         private  readonly Context _context;
         public readonly ILoginService _iloginservice;
+
+        
+
         public LoginController(Context context,ILoginService iloginservice)
         {
             _iloginservice = iloginservice;
@@ -24,8 +27,15 @@ namespace API_FINAL.Controllers
         }
 
 
+        [HttpGet]
 
-        
+        public async Task<ActionResult<IEnumerable<Login>>> Get()
+        {
+            return await _context.Login.ToListAsync();
+        }
+
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Login>> GetLogin(int id)
         {
@@ -44,35 +54,35 @@ namespace API_FINAL.Controllers
         public async Task<ActionResult> UserLogin(String username, String password)
         {
         
-            LoginResponse loginRespose = new LoginResponse();
+            Login login = new Login();
 
-            loginRespose = await _iloginservice.UserLogin(username, password);
-            if (loginRespose.username =="" )
+            login = await _iloginservice.UserLogin(username, password);
+
+            if (login == null )
             {
 
                 return BadRequest("User Not Exist");
             }
             else
             { 
-                return Ok(loginRespose);
+                return Ok(login);
             }
            
         }
 
         [HttpPost]
     
-        public async Task<ActionResult> UserLogout(String username,String password)
+        public async Task<ActionResult> UserLogout(int id)
         {
-            LoginResponse loginRespose = new LoginResponse();
+            var result = await _iloginservice.UserLogout(id);
 
-            loginRespose = await _iloginservice.UserLogout(username, password);
-            if (loginRespose.username == "")
+            if (result == "")
             {
-                return BadRequest("User Not Exist");
+                return BadRequest("not exist");
             }
             else
-            {            
-                return Ok("User Logged Out");
+            {
+                return Ok("User loged out");
             }
 
         }

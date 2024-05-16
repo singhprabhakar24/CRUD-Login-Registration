@@ -11,52 +11,49 @@ namespace API_FINAL.Repository
 
         private readonly Context _context;
 
-        public LoginRepository(Context context)
+       public LoginRepository(Context context)
         {
             _context = context;
-        }
+        } 
 
-        public async Task<LoginResponse> UserLogin(String username, String password)
+        public async Task<Login> UserLogin(String username, String password)
         {
            
             var Match = await _context.Login.Where(x => x.username == username && x.password == password).FirstOrDefaultAsync();
-            LoginResponse loginresponse = new LoginResponse();
+          
 
             if (Match == null)
             {
-           
-                return loginresponse;
+
+                return null ;
             }
             else 
             {
                 Match.IsActive = true;
-                _context.SaveChangesAsync();
-                loginresponse.username = username;
-                loginresponse.password = password;
+              await   _context.SaveChangesAsync();
+                //      loginresponse.username = username;
+                //    loginresponse.password = password;
 
-                return loginresponse;
+                return Match;
               
             }
             
         }
 
-        public async Task<LoginResponse> UserLogout(String username,String password)
+        public async Task<String> UserLogout(int id)
         {
-            LoginResponse loginresponse = new LoginResponse();
 
-           var Match = await _context.Login.Where(x => x.username == username && x.password == password && x.IsActive == true).FirstOrDefaultAsync();
+            var FindLoggedUser = await _context.Login.Where(m => m.Id == id && m.IsActive == true).FirstOrDefaultAsync();
 
-            if (Match == null)
+            if (FindLoggedUser == null)
             {
-                return loginresponse;
+                return "";
             }
             else
             {
-                Match.IsActive = false;
-                _context.SaveChangesAsync();
-                loginresponse.username = username;
-                loginresponse.password = password;
-                return loginresponse;
+                FindLoggedUser.IsActive = false;
+                _context.SaveChanges();
+                return "User logout";
 
             }
         }

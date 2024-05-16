@@ -43,9 +43,10 @@ namespace API_FINAL.Repository
         {
             var FindLogin = await _context.Login.Where(x => x.Id == registration.userid && x.IsActive == true).FirstOrDefaultAsync();
 
+
             if (FindLogin == null)
             {
-                throw new Exception("User Not Login yet");
+                return null;
             }
             else
             {
@@ -62,7 +63,7 @@ namespace API_FINAL.Repository
 
             if (Find == null)
             {
-                throw new Exception("User Not Register yet");
+                return null;
             }
             else
             {
