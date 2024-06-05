@@ -15,17 +15,17 @@ namespace API_FINAL.Controllers
     [Route("api/[Action]")]
     [ApiController]
   
-    public class RegistrationController : ControllerBase
+    public class RegistrationController(Context context, IRegistrationService iregistrationservice) : ControllerBase
     {
-        private readonly Context _context;
+        private readonly Context _context =context;
 
-        public readonly IRegistrationService _iregistrationservice;
+        public readonly IRegistrationService _iregistrationservice = iregistrationservice;
 
-        public RegistrationController(Context context, IRegistrationService iregistrationservice)
+    /*    public RegistrationController(Context context, IRegistrationService iregistrationservice)
         {
             _context = context;
             _iregistrationservice = iregistrationservice;
-        }
+        } */
 
         [HttpPost]
 
